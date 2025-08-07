@@ -68,7 +68,7 @@ const deleteStorageItem = (id) => {
    const items = getStorageItems();
 
    const currentTaskIndex = getStorageItemIndexByTaskId(id);
-   if (currentTaskIndex > -1) {
+   if (currentTaskIndex !== null) {
       items.splice(currentTaskIndex, 1);
       localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(storageItems));
    }
@@ -123,7 +123,8 @@ taskListElement.addEventListener('click', (event) => {
 
       if (target.nodeName === 'INPUT') {
          const currentTaskIndex = getStorageItemIndexByTaskId(liElement.id);
-         if (currentTaskIndex) {
+
+         if (currentTaskIndex !== null) {
             target.checked
                ? liElement.classList.add(COMPLETED_TASK_ITEM_CLASS)
                : liElement.classList.remove(COMPLETED_TASK_ITEM_CLASS);
