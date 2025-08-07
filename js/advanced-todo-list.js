@@ -3,6 +3,7 @@
 const form = document.querySelector('.form.js--form');
 const NEW_TASK_INPUT_TEXT_NAME = 'value';
 const STORAGE_TASKS_LIST_NAME = 'todo-list';
+const COMPLETED_TASK_ITEM_CLASS = 'todo-item--checked';
 const taskListElement = document.querySelector('.js--todos-wrapper');
 let storageItems = [];
 
@@ -26,6 +27,9 @@ const getDataFromFormTarget = (target) => {
 const renderItemInList = (item) => {
    const listItem = document.createElement('li');
    listItem.classList.add('todo-item');
+   item.is_completed
+       ? listItem.classList.add(COMPLETED_TASK_ITEM_CLASS)
+       : listItem.classList.remove(COMPLETED_TASK_ITEM_CLASS);
    listItem.id = item.id;
 
    const checkbox = document.createElement('input');
@@ -120,6 +124,10 @@ taskListElement.addEventListener('click', (event) => {
       if (target.nodeName === 'INPUT') {
          const currentTaskIndex = getStorageItemIndexByTaskId(liElement.id);
          if (currentTaskIndex) {
+            target.checked
+               ? liElement.classList.add(COMPLETED_TASK_ITEM_CLASS)
+               : liElement.classList.remove(COMPLETED_TASK_ITEM_CLASS);
+
             storageItems[currentTaskIndex].is_completed = target.checked;
             localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(storageItems));
          }
