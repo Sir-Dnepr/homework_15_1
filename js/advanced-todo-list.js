@@ -91,11 +91,11 @@ const getStorageItems = () => {
 }
 
 const addStorageItems = (item) => {
-   getStorageItems();
-   storageItems.push(item);
-   localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(storageItems));
+   const items = getStorageItems();
+   items.push(item);
+   localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(items));
 
-   return storageItems;
+   return items;
 }
 
 form.addEventListener('submit', (event) => {
@@ -129,8 +129,9 @@ taskListElement.addEventListener('click', (event) => {
                ? liElement.classList.add(COMPLETED_TASK_ITEM_CLASS)
                : liElement.classList.remove(COMPLETED_TASK_ITEM_CLASS);
 
-            storageItems[currentTaskIndex].is_completed = target.checked;
-            localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(storageItems));
+            const items = getStorageItems();
+            items[currentTaskIndex].is_completed = target.checked;
+            localStorage.setItem(STORAGE_TASKS_LIST_NAME, JSON.stringify(items));
          }
       }
    }
