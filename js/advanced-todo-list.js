@@ -3,7 +3,7 @@
 const form = document.querySelector('.form.js--form');
 const NEW_TASK_INPUT_TEXT_NAME = 'value';
 const STORAGE_TASKS_LIST_NAME = 'todo-list';
-const taskList = document.querySelector('.js--todos-wrapper');
+const taskListElement = document.querySelector('.js--todos-wrapper');
 let storageItems = [];
 
 const getDataFromFormTarget = (target) => {
@@ -44,7 +44,7 @@ const renderItemInList = (item) => {
    listItem.append(descriptionSpan);
    listItem.append(deleteButton);
 
-   taskList.prepend(listItem);
+   taskListElement.prepend(listItem);
 }
 
 const addStorageItem = (taskText, isCompleted) => {
@@ -104,20 +104,20 @@ form.addEventListener('submit', (event) => {
    }
 });
 
-taskList.addEventListener('click', (event) => {
+taskListElement.addEventListener('click', (event) => {
    const { target } = event;
-   if (target.nodeName === 'BUTTON') {
-      const liElement = target.closest('li');
-      if (liElement.id) {
-         deleteStorageItem(liElement.id);
+   const liElement = target.closest('li');
+
+   if (liElement.id) {
+      if (target.nodeName === 'BUTTON') {
+         if (liElement.id) {
+            deleteStorageItem(liElement.id);
+         }
+
+         target.closest('li')?.remove();
       }
 
-      target.closest('li')?.remove();
-   }
-
-   if (target.nodeName === 'INPUT') {
-      const liElement = target.closest('li');
-      if (liElement.id) {
+      if (target.nodeName === 'INPUT') {
          const currentTaskIndex = getStorageItemIndexByTaskId(liElement.id);
          if (currentTaskIndex) {
             storageItems[currentTaskIndex].is_completed = target.checked;
